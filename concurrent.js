@@ -4,11 +4,11 @@ with (concurrent) {
 	var executor = Executors.newCachedThreadPool();
 	var tasks = new LinkedHashSet();
 	for (var i=0; i < 200; i++) {
-		var task = Java.extend(Callable, {call: function() {print("task " + i)}})
-		tasks.add(task)
-		task.call();
-		//executor.submit(task) // doesn't work
+		var MyTask = Java.extend(Callable,{call: function() {print("task " + i)}})
+		var task = new MyTask();
+		tasks.add(task);
+		executor.submit(task);
 	}
-//	executor.invokeAll(tasks); //also doesn't work
+	//executor.invokeAll(tasks); // oops
 }
 
