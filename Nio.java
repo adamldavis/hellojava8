@@ -14,7 +14,6 @@ public class Nio {
     
     
         System.out.println("\n----->first 5 java file names:");
-        
         Files.list(Paths.get("."))
             .map(Path::getFileName) // still a path
             .map(Path::toString) // convert to Strings
@@ -47,5 +46,8 @@ public class Nio {
         System.out.println("max=" + stats.getMax());
         System.out.println("min=" + stats.getMin());
         */
+        /*String str = Stream.of("hello", "java", "8")
+            .collect(joining("-"));
+        System.out.println(str);*/
      }
 }
