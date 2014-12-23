@@ -45,30 +45,40 @@ public interface Tail<T> {
         };
     }
 
-    static Long fastFactorial(int n) {
-        return fastFactorial(1L, n).invoke();
+    static BigInteger streamFactorial(int n) {
+        return streamFactorial(BigInteger.ONE, n).invoke();
     }
-    static Tail<Long> fastFactorial(Long x, int n) {
+    static Tail<BigInteger> streamFactorial(BigInteger x, int n) {
         return () -> {
             switch (n) {
                 case 1:
                     return Tail.done(x);
                 default:
-                    return fastFactorial(x * n, n - 1);
+                    return streamFactorial(x.multiply(BigInteger.valueOf(n)), n - 1);
             }
         };
     }
-    static Long dumbFactorial(int n) {
-        return dumbFactorial(1L, n);
+    
+    static BigInteger stackFactorial(int n) {
+        return stackFactorial(BigInteger.ONE, n);
     }
-    static Long dumbFactorial(Long x, int n) {
+    static BigInteger stackFactorial(BigInteger x, int n) {
         if (n==1) return x;
-        else return dumbFactorial(x * n, n - 1);
+        else return stackFactorial(x.multiply(BigInteger.valueOf(n)), n - 1);
     }
+    
     public static void main(String...args) {
         long start = System.currentTimeMillis();
-        System.out.println(fastFactorial(42));
-        System.out.println(System.currentTimeMillis() - start);
+        final int num = 55555;
+        System.out.println("calculating " + num + "!");
+        try {
+        	stackFactorial(num);
+        	System.out.println("stack: " + (System.currentTimeMillis() - start));
+        } catch (StackOverflowError e) {
+        	System.err.println(e);
+        }
+        streamFactorial(num);
+        System.out.println("stream: " + (System.currentTimeMillis() - start) + "ms");
     }
     
 }
