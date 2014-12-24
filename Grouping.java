@@ -14,14 +14,14 @@ public class Grouping {
     }
 
     public static List<Dragon> getDragons() {
-        return Arrays.asList(new Dragon("Smaug"), new Dragon("Norbert"));
+        return Arrays.asList(new Dragon("Smaug"), new Dragon("Norbert"), new Dragon("Smoochy"), new Dragon("Nuvi"));
     }
 
     public static void main(String...args) {
 
         List<Dragon> dragons = getDragons();
-        Map<Character,List<Dragon>> map = dragons.stream()
-                .collect(groupingBy(dragon -> dragon.getName().charAt(0)));
+        Map<Character,List<Dragon>> map = dragons.parallelStream()
+                .collect(groupingByConcurrent(dragon -> dragon.getName().charAt(0)));
                 
         System.out.println(map);           
         
